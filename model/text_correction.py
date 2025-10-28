@@ -1,6 +1,6 @@
 """
 Modelo MVP para corrección de textos usando DeepSeek API
-Autor: Laura Lonal
+Autor: Laura Londono
 Fecha: Octubre 2025
 Proyecto: TextLab - Edición de textos con IA
 """
