@@ -13,7 +13,7 @@ Laura Londono Alzate
 from model.text_correction import TextCorrectionModel
 
 # Crear instancia
-modelo = TextCorrectionModel(api_key="sk-8a962e866b444597a4adea698ba3a28b")
+modelo = TextCorrectionModel(api_key="API KEY NUM") #Se elimina el num exacto de la api por cuestiones de seguridad
 
 # Corregir texto
 resultado = modelo.corregir_texto("texto con herrores")
