@@ -35,12 +35,6 @@ print(resultado)
 - Python 3.7+
 - requests
 
-## API Key
-1. Visita https://platform.deepseek.com
-2. Regístrate o inicia sesión
-3. Ve a la sección de API keys
-4. Genera una nueva key
-
 ## Notas para el equipo
 - El backend debe pasar la API key como variable de entorno
 - El modelo devuelve un diccionario con el resultado
