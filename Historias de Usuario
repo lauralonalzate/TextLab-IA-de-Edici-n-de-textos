@@ -1,0 +1,58 @@
+Como estudiante,
+quiero pegar mi texto y que se subrayen las palabras mal escritas,
+para identificar rápidamente mis errores ortográficos.
+
+Criterios de Aceptación:
+- El sistema detecta palabras con errores ortográficos
+- Las palabras mal escritas se marcan en rojo (ejemplo ilustrativo temporal)
+- Al hacer clic en una palabra marcada, muestra sugerencias
+- Funciona con textos de hasta 5000 caracteres
+```
+
+### **HU-002: Sugerencias de Corrección**
+```
+Como usuario,
+quiero ver sugerencias de corrección al hacer clic en un error,
+para poder corregir el texto fácilmente.
+
+Criterios de Aceptación:
+- Muestra al menos 3 sugerencias por palabra
+- Permite reemplazar con un solo clic
+- Opción de "Ignorar" o "Agregar al diccionario"
+```
+
+### **HU-003: Interfaz de Entrada de Texto**
+```
+Como usuario,
+quiero tener un área de texto clara y fácil de usar,
+para escribir o pegar mi contenido cómodamente.
+
+Criterios de Aceptación:
+- Área de texto responsive (se adapta a la pantalla)
+- Botón "Pegar texto" visible
+- Botón "Limpiar" para borrar todo
+- Contador de palabras y caracteres
+```
+
+### **HU-004: Corrección Gramatical**
+```
+Como estudiante,
+quiero que el sistema detecte errores gramaticales básicos,
+para mejorar la calidad de mis escritos.
+
+Criterios de Aceptación:
+- Detecta concordancia de género/número
+- Identifica uso incorrecto de tiempos verbales
+- Marca los errores en color diferente al ortográfico (ej: azul)
+```
+
+### **HU-005: Exportar Texto Corregido / NO ENTRA EN EL PRODUCTO MÍNIMO VIABLE**
+```
+Como usuario,
+quiero poder copiar o descargar mi texto corregido,
+para usarlo en otros documentos.
+
+Criterios de Aceptación:
+- Botón "Copiar al portapapeles"
+- Opción de descargar como .txt
+- Mensaje de confirmación al copiar
