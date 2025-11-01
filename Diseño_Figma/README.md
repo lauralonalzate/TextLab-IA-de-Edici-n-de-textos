@@ -18,4 +18,8 @@ Este diseño corresponde al **frontend del proyecto TextLab**, desarrollado seg�
 - **Estilo:** Minimalista, profesional y sin distracciones  
 
 ##  Autores
-Equipo de Frontend – Proyecto de Ingeniería de Software (UPB)
+Equipo de Frontend – Proyecto de Ingeniería de Software
+
+###  Actualización HU#23
+Se añadió la barra de formato al editor (negrita, cursiva, subrayado, listas, enlaces y limpiar formato).
+Versión: `Editor_principal_v2.png`
