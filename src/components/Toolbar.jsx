@@ -5,13 +5,10 @@ export default function Toolbar({ onSave, onAI, onExport }) {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-  if (confirm('¿Deseas cerrar sesión?')) {
     localStorage.removeItem('token')
     localStorage.removeItem('guest')
     navigate('/login')
   }
-}
-
 
   return (
     <div className="flex justify-between items-center p-4 bg-white shadow-sm rounded-xl">
@@ -33,7 +30,6 @@ export default function Toolbar({ onSave, onAI, onExport }) {
         <button onClick={onExport} className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200">
           Exportar
         </button>
-        {/* 🔐 Cerrar sesión */}
         <button
           onClick={handleLogout}
           className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"

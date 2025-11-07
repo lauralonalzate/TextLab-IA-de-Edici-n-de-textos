@@ -9,34 +9,48 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (!email || !password) { setError('Completa todos los campos'); return }
+    if (!email || !password) {
+      setError('Completa todos los campos')
+      return
+    }
     setError('')
     localStorage.setItem('token', 'demo-token')
     navigate('/editor')
   }
 
+  // 🔹 Modo invitado habilitado (para la demo)
   const handleGuestLogin = () => {
-    localStorage.setItem('token', 'guest-token')
-    localStorage.setItem('guest', 'true')
-    navigate('/editor')
+    localStorage.setItem('token', 'guest-token') // pasa ProtectedRoute
+    localStorage.setItem('guest', 'true')        // marca modo invitado
+    window.location.href = '/editor'
   }
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow w-80">
-        <h1 className="text-2xl font-bold mb-4" style={{color:'var(--brand)'}}>TextLab</h1>
-        <input className="w-full p-2 border rounded mb-3" type="email" placeholder="Correo" value={email} onChange={e=>setEmail(e.target.value)} />
-        <input className="w-full p-2 border rounded mb-3" type="password" placeholder="Contraseña" value={password} onChange={e=>setPassword(e.target.value)} />
+        <h1 className="text-2xl font-bold mb-4" style={{ color: 'var(--brand)' }}>
+          TextLab
+        </h1>
+        <input
+          className="w-full p-2 border rounded mb-3"
+          type="email"
+          placeholder="Correo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className="w-full p-2 border rounded mb-3"
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         {error && <p className="text-red-500 text-sm mb-3">{error}</p>}
-        <button className="w-full py-2 rounded text-white" style={{background:'var(--brand)'}}>Iniciar sesión</button>
-        <p className="text-center text-sm mt-3">
-          ¿No tienes cuenta?{' '}
-          <span className="text-blue-600 cursor-pointer" onClick={()=>navigate('/register')}>
-            Regístrate
-          </span>
-        </p>
+        <button className="w-full py-2 rounded text-white" style={{ background: 'var(--brand)' }}>
+          Iniciar sesión
+        </button>
 
-        {/* 🔹 BOTÓN DE INVITADO */}
+        {/* 🔹 Botón para invitado */}
         <div className="mt-4 text-center">
           <button
             type="button"
