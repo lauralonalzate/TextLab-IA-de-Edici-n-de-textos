@@ -9,3 +9,13 @@ Puedes ver el diseño y las capturas en la siguiente carpeta:
 
 O abrir directamente el proyecto en Figma:  
 [Abrir diseño en Figma](https://www.figma.com/make/pEvrYZsIZ7tNCWAla1YmqY/Interfaz-TextLab?node-id=0-4&t=9ZmWob93xC1PR2Hq-1)
+
+##  Tecnologías utilizadas  
+
+- **React + Vite** – Framework moderno y rápido para el desarrollo frontend  
+- **TailwindCSS** – Estilización ágil y diseño responsive  
+- **React Router DOM** – Navegación entre páginas  
+- **React Quill** – Editor de texto enriquecido integrado  
+- **Recharts** – Gráficos y visualización de estadísticas  
+
+---
