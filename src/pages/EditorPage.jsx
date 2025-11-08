@@ -1,67 +1,135 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import Toolbar from '../components/Toolbar'
-import Editor from '../components/Editor'
-import StatsPanel from '../components/StatsPanel'
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, Link } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import Toolbar from "../components/Toolbar";
+import StatsPanel from "../components/StatsPanel";
 
 export default function EditorPage() {
-  const [text, setText] = useState('')
-  const [title, setTitle] = useState('')
-  const navigate = useNavigate()
+  const location = useLocation();
+  const quillRef = useRef(null);
 
-  const isGuest = localStorage.getItem('guest') === 'true'
-  const showGuestBanner = isGuest
+  const [title, setTitle] = useState("");
+  const [value, setValue] = useState("");
+  const isGuest = Boolean(localStorage.getItem("guest"));
 
-  // 🔹 Para la demo, habilitamos todo
-  const canSave = true
-  const canExport = true
+  // Cargar datos si vienen desde /plantillas
+  useEffect(() => {
+    if (location.state?.fromTemplate) {
+      if (location.state.title) setTitle(location.state.title);
+      if (location.state.html) setValue(location.state.html);
+    }
+  }, [location.state]);
 
-  // Guardado
+  const modules = useMemo(
+    () => ({
+      toolbar: [
+        [{ header: [false, 1, 2, 3] }],
+        ["bold", "italic", "underline"],
+        [{ list: "bullet" }, { list: "ordered" }],
+        [{ align: [] }],
+        ["link", "image"],
+        ["clean"],
+      ],
+    }),
+    []
+  );
+
+  // Acciones
   const handleSave = () => {
-    const payload = { title, textHtml: text, ts: Date.now() }
-    localStorage.setItem('textlab_demo_doc', JSON.stringify(payload))
-    alert('Guardado (demo) ✓ — Se guardó localmente.')
-  }
+    const doc = { title, html: value, updatedAt: new Date().toISOString() };
+    localStorage.setItem("textlab_doc_demo", JSON.stringify(doc));
+    alert("Documento guardado localmente (demo).");
+  };
 
-  // Exportación
+  const handleAI = () => {
+    // Placeholder: aquí iría tu integración IA (si aplica en la demo).
+    alert("Corrección con IA (demo).");
+  };
+
   const handleExport = () => {
-    const plain = text.replace(/<[^>]+>/g, '')
-    const name = (title?.trim() || 'documento') + '.txt'
-    const blob = new Blob([plain], { type: 'text/plain;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = name
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    URL.revokeObjectURL(url)
-  }
+    // Exportar a .doc conservando formato (HTML embebido)
+    const blob = new Blob(
+      [
+        `<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>${value}</body></html>`,
+      ],
+      { type: "application/msword" }
+    );
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${title || "documento"}.doc`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  // Métricas simples
+  const plainText = useMemo(
+    () =>
+      value
+        .replace(/<[^>]+>/g, " ")
+        .replace(/\s+/g, " ")
+        .trim(),
+    [value]
+  );
+  const words = plainText ? plainText.split(" ").length : 0;
+  const readMin = Math.max(1, Math.ceil(words / 200));
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 p-6">
-      <Toolbar onSave={handleSave} onAI={() => alert('Corregir con IA (demo)')} onExport={handleExport} />
+    <div className="h-screen flex flex-col bg-gray-50">
+      {/* Header */}
+      <Toolbar
+        onSave={handleSave}
+        onExport={handleExport}
+        onAI={handleAI}
+        isGuest={isGuest}
+      />
 
-      <div className="flex-1 mt-4 grid grid-cols-1 md:grid-cols-[1fr_18rem] gap-6">
-        <div className="bg-white p-4 rounded-xl shadow">
-          {showGuestBanner && (
-            <div className="bg-blue-50 text-blue-700 p-2 rounded mb-3 text-sm text-center">
-              Modo invitado habilitado para la demostración — Guardar y Exportar activos.
-            </div>
-          )}
-
+      {/* Cuerpo */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Editor */}
+        <div className="flex-1 p-6 overflow-auto">
+          {/* Título */}
           <input
-            className="w-full p-2 border rounded mb-3"
-            placeholder="Título del documento"
+            className="w-full border rounded-md px-3 py-2 mb-3"
+            placeholder="Título del documento…"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
 
-          <Editor value={text} onChange={setText} />
+          {/* Editor */}
+          <div className="bg-white border rounded-md">
+            <ReactQuill
+              ref={quillRef}
+              theme="snow"
+              modules={modules}
+              value={value}
+              onChange={setValue}
+              placeholder="Escribe tu texto aquí…"
+            />
+          </div>
+
+          {/* Aviso modo invitado */}
+          {isGuest && (
+            <p className="text-xs text-gray-500 mt-2">
+              *Modo invitado sin restricciones activado para la demostración.
+            </p>
+          )}
+
+          {/* Link como en tu UI anterior (abajo a la izquierda) */}
+          <div className="mt-4">
+            <Link
+              to="/plantillas"
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Ir a plantillas
+            </Link>
+          </div>
         </div>
 
-        <StatsPanel text={text} />
+        {/* Panel de estadísticas a la derecha (tarjeta blanca) */}
+        <StatsPanel words={words} readMinutes={readMin} readability={0} />
       </div>
     </div>
-  )
+  );
 }

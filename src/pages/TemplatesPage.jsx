@@ -1,26 +1,65 @@
-import React from 'react'
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const items = [
-  { title:'Informe técnico', desc:'Estructura base para reportes técnicos.' },
-  { title:'Proyecto final', desc:'Secciones para memoria de proyecto.' },
-  { title:'Artículo APA', desc:'Plantilla alineada a APA 7.' },
-]
+const TEMPLATES = [
+  {
+    id: "carta",
+    title: "Carta formal",
+    description: "Estructura básica de carta formal.",
+    html: `<p>Medellín, 11 de junio de 2025</p>
+<p>Señor(a):<br><strong>Nombre del destinatario</strong><br>Empresa</p>
+<p>Asunto: <em>Motivo de la carta</em></p>
+<p>Respetado(a) Señor(a):</p>
+<p>Me permito informar que ...</p>
+<p>Cordialmente,<br><strong>Tu nombre</strong></p>`,
+  },
+  {
+    id: "informe",
+    title: "Informe académico",
+    description: "Plantilla de informe con secciones.",
+    html: `<h2>Resumen</h2><p>…</p><h2>Introducción</h2><p>…</p><h2>Metodología</h2><p>…</p><h2>Resultados</h2><p>…</p><h2>Conclusiones</h2><p>…</p>`,
+  },
+  {
+    id: "acta",
+    title: "Acta de reunión",
+    description: "Formato breve con asistentes y conclusiones.",
+    html: `<h2>Acta de reunión</h2><p><strong>Fecha:</strong> …</p><p><strong>Asistentes:</strong> …</p><h3>Agenda</h3><ul><li>Punto 1</li><li>Punto 2</li></ul><h3>Conclusiones</h3><p>…</p>`,
+  },
+];
 
 export default function TemplatesPage() {
+  const navigate = useNavigate();
+
+  const useTemplate = (tpl) => {
+    navigate("/editor", {
+      replace: false,
+      state: { fromTemplate: true, title: tpl.title, html: tpl.html },
+    });
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-5xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4" style={{color:'var(--brand)'}}>Plantillas de informes académicos</h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {items.map((it)=> (
-            <div key={it.title} className="bg-white rounded-xl shadow p-4">
-              <h3 className="font-semibold">{it.title}</h3>
-              <p className="text-sm text-gray-600">{it.desc}</p>
-              <button className="mt-3 px-3 py-2 rounded text-white" style={{background:'var(--brand)'}}>Usar plantilla</button>
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-2xl font-semibold">Plantillas</h1>
+      </div>
+
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        {TEMPLATES.map((tpl) => (
+          <div
+            key={tpl.id}
+            className="border rounded-lg p-4 hover:shadow cursor-pointer bg-white"
+            onClick={() => useTemplate(tpl)}
+          >
+            <h3 className="font-medium">{tpl.title}</h3>
+            <p className="text-sm text-gray-600 mt-1">{tpl.description}</p>
+            <div className="mt-3">
+              <span className="inline-block text-blue-600 text-sm">
+                Usar esta plantilla →
+              </span>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
-  )
+  );
 }
